@@ -10,6 +10,7 @@ public class AdvancedCalculatorTest {
     @BeforeMethod
     public void setUp() {
         System.out.println("🔧 Setting up calculator for advanced test");
+        System.out.println("  🔢 Testing new feature");
         calculator = new Calculator();
     }
 
