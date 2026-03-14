@@ -3,7 +3,6 @@ package com.example;
 import org.testng.annotations.*;
 import org.testng.Assert;
 
-@Test(groups = {"unit", "smoke"})
 public class CalculatorTest {
 
     private Calculator calculator;
@@ -20,42 +19,46 @@ public class CalculatorTest {
         calculator = null;
     }
 
-    @Test(groups = {"smoke", "addition"})
+    @Test
     public void testAdd() {
         System.out.println("  🔢 Testing addition");
         int result = calculator.add(5, 3);
         Assert.assertEquals(result, 8, "5 + 3 should be 8");
     }
 
-    @Test(groups = {"smoke", "subtraction"})
+    @Test
     public void testSubtract() {
         System.out.println("  🔢 Testing subtraction");
         int result = calculator.subtract(10, 4);
         Assert.assertEquals(result, 6, "10 - 4 should be 6");
     }
 
-    @Test(groups = {"multiplication"})
+    @Test
     public void testMultiply() {
         System.out.println("  🔢 Testing multiplication");
         int result = calculator.multiply(6, 7);
         Assert.assertEquals(result, 42, "6 * 7 should be 42");
     }
 
-    @Test(groups = {"division"})
+    @Test
     public void testDivide() {
         System.out.println("  🔢 Testing division");
         int result = calculator.divide(15, 3);
         Assert.assertEquals(result, 5, "15 / 3 should be 5");
     }
 
-    @Test(groups = {"division", "error-handling"},
-            expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testDivideByZero() {
         System.out.println("  🔢 Testing division by zero (should throw exception)");
-        calculator.divide(10, 0);
+        try {
+            calculator.divide(10, 0);
+            Assert.fail("Should have thrown exception");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Cannot divide by zero");
+        }
     }
 
-    @Test(groups = {"even-odd"})
+    @Test
     public void testIsEven() {
         System.out.println("  🔢 Testing even/odd");
         Assert.assertTrue(calculator.isEven(4), "4 should be even");

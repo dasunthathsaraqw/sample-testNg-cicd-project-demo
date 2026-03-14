@@ -3,42 +3,35 @@ package com.example;
 import org.testng.annotations.*;
 import org.testng.Assert;
 
-@Test(groups = {"advanced", "unit"})
 public class AdvancedCalculatorTest {
 
     private Calculator calculator;
 
-    @BeforeClass
-    public void beforeClass() {
-        System.out.println("🚀 Starting Advanced Calculator Tests");
-    }
-
-    @AfterClass
-    public void afterClass() {
-        System.out.println("✅ Completed Advanced Calculator Tests");
-    }
-
     @BeforeMethod
     public void setUp() {
+        System.out.println("🔧 Setting up calculator for advanced test");
         calculator = new Calculator();
     }
 
-    @Test(groups = {"factorial", "smoke"})
+    @Test
     public void testFactorial() {
         System.out.println("  🔢 Testing factorial");
         Assert.assertEquals(calculator.factorial(5), 120, "5! should be 120");
         Assert.assertEquals(calculator.factorial(0), 1, "0! should be 1");
     }
 
-    @Test(groups = {"factorial", "error-handling"},
-            expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testFactorialNegative() {
         System.out.println("  🔢 Testing factorial with negative (should throw)");
-        calculator.factorial(-5);
+        try {
+            calculator.factorial(-5);
+            Assert.fail("Should have thrown exception");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals(e.getMessage(), "Number must be positive");
+        }
     }
 
-    @Test(groups = {"multiple-operations"},
-            dependsOnMethods = {"testAdd", "testMultiply"})
+    @Test
     public void testComplexOperation() {
         System.out.println("  🔢 Testing complex operation");
         int result = calculator.add(calculator.multiply(2, 3), 4);
@@ -55,7 +48,7 @@ public class AdvancedCalculatorTest {
         };
     }
 
-    @Test(groups = {"data-driven"}, dataProvider = "additionData")
+    @Test(dataProvider = "additionData")
     public void testAddWithDataProvider(int a, int b, int expected) {
         System.out.println("  🔢 Testing add with data: " + a + " + " + b + " = " + expected);
         Assert.assertEquals(calculator.add(a, b), expected);

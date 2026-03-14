@@ -1,51 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="TestNG CI/CD Demo Suite" parallel="tests" thread-count="2">
+<suite name="TestNG CI/CD Demo Suite">
 
-    <!-- Smoke Tests - Quick validation -->
-    <test name="Smoke Tests">
-        <groups>
-            <run>
-                <include name="smoke"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.example.CalculatorTest"/>
-            <class name="com.example.AdvancedCalculatorTest"/>
-        </classes>
-    </test>
-
-    <!-- Unit Tests - All unit tests -->
-    <test name="Unit Tests">
-        <groups>
-            <run>
-                <include name="unit"/>
-            </run>
-        </groups>
-        <packages>
-            <package name="com.example.*"/>
-        </packages>
-    </test>
-
-    <!-- Error Handling Tests -->
-    <test name="Error Handling Tests">
-        <groups>
-            <run>
-                <include name="error-handling"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.example.CalculatorTest"/>
-            <class name="com.example.AdvancedCalculatorTest"/>
-        </classes>
-    </test>
-
-    <!-- All Tests -->
+    <!-- All Tests - Run sequentially -->
     <test name="All Tests">
-        <packages>
-            <package name="com.example.*"/>
-        </packages>
+        <classes>
+            <class name="com.example.CalculatorTest"/>
+            <class name="com.example.AdvancedCalculatorTest"/>
+        </classes>
     </test>
 
 </suite>
