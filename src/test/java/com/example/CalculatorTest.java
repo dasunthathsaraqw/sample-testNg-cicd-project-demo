@@ -50,6 +50,7 @@ public class CalculatorTest {
     @Test
     public void testDivideByZero() {
         System.out.println("  🔢 Testing division by zero (should throw exception)");
+        System.out.println("  🔢 Testing new feature");
         try {
             calculator.divide(10, 0);
             Assert.fail("Should have thrown exception");

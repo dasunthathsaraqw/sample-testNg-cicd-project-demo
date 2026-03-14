@@ -47,7 +47,7 @@
                     <testFailureIgnore>false</testFailureIgnore>
 
                     <!-- Run tests in parallel -->
-                    <parallel>methods</parallel>
+                    <parallel>none</parallel>
                     <threadCount>2</threadCount>
                 </configuration>
             </plugin>
