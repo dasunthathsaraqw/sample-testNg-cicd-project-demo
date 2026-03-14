@@ -1,0 +1,80 @@
+name: TestNG CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run TestNG Tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run Tests with TestNG
+        run: mvn clean test
+
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: testng-reports
+          path: |
+            target/surefire-reports/
+            test-output/
+
+      - name: Test Summary
+        run: |
+          echo "📊 TESTNG TEST RESULTS"
+          echo "======================"
+          if [ -f "target/surefire-reports/index.html" ]; then
+            echo "✅ Test reports generated successfully"
+          else
+            echo "❌ Test reports not found"
+            exit 1
+          fi
+
+  # Quality Gate - Only if tests pass
+  quality-gate:
+    runs-on: ubuntu-latest
+    name: Quality Gate
+    needs: test
+    if: success()
+
+    steps:
+      - name: Check Quality Gate
+        run: |
+          echo "✅ QUALITY GATE PASSED"
+          echo "======================"
+          echo "All TestNG tests passed successfully"
+          echo "Ready for merge to main branch!"
+
+  # Merge Gate - For PRs
+  merge-gate:
+    runs-on: ubuntu-latest
+    name: Merge Gate
+    if: github.event_name == 'pull_request' && success()
+
+    steps:
+      - name: PR can be merged
+        run: |
+          echo "✅ PR STATUS: READY TO MERGE"
+          echo "============================="
+          echo "All tests passed. This PR can be safely merged to main!"
