@@ -11,6 +11,7 @@ public class AdvancedCalculatorTest {
     public void setUp() {
         System.out.println("🔧 Setting up calculator for advanced test");
         System.out.println("  🔢 Testing new feature");
+        System.out.println("  🔢 Testing new feature test2");
         calculator = new Calculator();
     }
 
